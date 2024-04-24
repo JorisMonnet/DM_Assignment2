@@ -147,11 +147,11 @@ def change_dynamics_for_whole_piece(my_stream):
     my_stream = classical_dynamics_shape(my_stream, 52, 20, 30)
     my_stream = change_dynamics_decrescendo_measure(my_stream, 53, "mp", "p")
     j = 0
-    for i in range(54, 69):
+    for i in range(54, 68):
         my_stream = classical_dynamics_shape(my_stream, i, int(57 - j * 1.5), 100 - j * 2)
         j += 1
-    my_stream = change_dynamics_decrescendo_measure(my_stream, 69, "mp", "p")
-    my_stream = change_dynamics_decrescendo_measure(my_stream, 70, "p", "pp")
+    my_stream = change_dynamics_decrescendo_measure(my_stream, 68, "mp", "p")
+    my_stream = change_dynamics_decrescendo_measure(my_stream, 69, "pp", "ppp")
 
     return my_stream
 
