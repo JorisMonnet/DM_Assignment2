@@ -19,3 +19,27 @@ def save_midi(my_stream: 'stream.Stream', filename: str = "./Berceuse_op_57/gene
     :param filename: str
     """
     my_stream.write('midi', fp=filename)
+
+
+def extract_measures_and_save(input_stream, output_midi_path: str, start_measure: int, end_measure: int):
+    """
+    Extracts specified measures from a given music21 stream and saves them to a new MIDI file.
+
+    :param input_stream: music21 stream object that contains the music data.
+    :param output_midi_path: path where the new MIDI file will be saved.
+    :param start_measure: the first measure to include in the extraction.
+    :param end_measure: the last measure to include in the extraction.
+    """
+    new_stream = stream.Score()
+
+    for part in input_stream.parts:
+        # Extracts a specified range of bars
+        extracted_measures = part.measures(start_measure, end_measure)
+
+        new_part = stream.Part()
+        for measure in extracted_measures:
+            new_part.append(measure)
+        new_stream.append(new_part)
+
+    # save
+    new_stream.write('midi', fp=output_midi_path)

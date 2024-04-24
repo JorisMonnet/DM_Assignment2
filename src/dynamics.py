@@ -1,3 +1,5 @@
+import random
+
 from music21 import dynamics
 
 
@@ -152,3 +154,49 @@ def change_dynamics_for_whole_piece(my_stream):
     my_stream = change_dynamics_decrescendo_measure(my_stream, 70, "p", "pp")
 
     return my_stream
+
+
+def change_velocity_measures_in_stream(s, start_measure: int, end_measure: int, velocity_factor: float):
+    """
+    Change the velocity of notes in a stream for a range of measures.
+    :param s:
+    :param start_measure:
+    :param end_measure:
+    :param velocity_factor:
+    :return:
+    """
+    for measure_number in range(start_measure, end_measure + 1):
+        measure = s.measure(measure_number)
+        if measure is not None:
+            # modify intensity
+            for n in measure.recurse().notes:
+                # Calculate the new tone intensity and make sure it is in the range of the MIDI standard (0-127)
+                n.volume.velocity = min(max(int(n.volume.velocity * velocity_factor), 0), 127)
+    return s
+
+
+def randomize_velocity_in_measures(s, start_measure: int, end_measure: int, delta_range: int):
+    """
+    Randomly adjusts the velocity of each note within a specified range in a music stream,
+    limited to a specific range of measures.
+
+    Parameters:
+        s (music21.stream.Stream): The music stream to modify.
+        start_measure (int): The starting measure number.
+        end_measure (int): The ending measure number.
+        delta_range (int): The maximum change (up or down) that can be applied to the velocity.
+
+    Returns:
+        music21.stream.Stream: The modified music stream.
+    """
+    for measure_number in range(start_measure, end_measure + 1):
+        measure = s.measure(measure_number)
+        if measure:
+            for n in measure.notes:  # Only adjust notes directly in the measure
+                if n.volume.velocity is not None:  # Check if velocity is defined
+                    change = random.randint(-delta_range, delta_range)  # Random change within the specified range
+                    new_velocity = max(0, min(127, n.volume.velocity + change))  # Apply the change and clamp the result
+                    n.volume.velocity = new_velocity  # Set the new velocity
+                else:
+                    n.volume.velocity = random.randint(64 - delta_range, 64 + delta_range)  # Default value if None
+    return s
