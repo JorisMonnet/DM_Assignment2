@@ -28,7 +28,7 @@ def change_dynamics_decrescendo_measure(my_stream, measure: int, start_dynamic: 
         decrescendo.start_measure = measure
         decrescendo.start_offset = 0
         decrescendo.end_measure = measure
-        decrescendo.end_offset = max(offsets)
+        decrescendo.end_offset = max(offsets) if len(offsets) > 0 else 0
         decrescendo.start_dynamic = dynamics.Dynamic(start_dynamic)
         decrescendo.end_dynamic = dynamics.Dynamic(end_dynamic)
 
@@ -108,7 +108,7 @@ def change_dynamics_crescendo_measure(my_stream, measure: int, start_dynamic: st
         crescendo.start_measure = measure
         crescendo.start_offset = 0
         crescendo.end_measure = measure
-        crescendo.end_offset = max(offsets)
+        crescendo.end_offset = max(offsets) if len(offsets) > 0 else 0
         crescendo.start_dynamic = dynamics.Dynamic(start_dynamic)
         crescendo.end_dynamic = dynamics.Dynamic(end_dynamic)
 
