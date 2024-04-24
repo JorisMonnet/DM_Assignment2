@@ -43,3 +43,17 @@ def extract_measures_and_save(input_stream, output_midi_path: str, start_measure
 
     # save
     new_stream.write('midi', fp=output_midi_path)
+
+
+def count_notes_in_measure(score, measure_number):
+    """
+    Calculate the number of notes in a specific measure of a score.
+
+    Parameters:
+        score (music21.stream.Score): The score object to analyze.
+        measure_number (int): The measure number to analyze.
+    """
+    for part_index, part in enumerate(score.parts):
+        measure = part.measure(measure_number)
+        notes = measure.notes
+        print(f"Part {part_index + 1}: {len(notes)} notes in measure {measure_number}")

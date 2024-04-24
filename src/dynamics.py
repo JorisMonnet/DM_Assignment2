@@ -200,3 +200,4 @@ def randomize_velocity_in_measures(s, start_measure: int, end_measure: int, delt
                 else:
                     n.volume.velocity = random.randint(64 - delta_range, 64 + delta_range)  # Default value if None
     return s
+
